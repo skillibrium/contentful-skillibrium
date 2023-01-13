@@ -4,18 +4,20 @@ import * as contentful from "contentful";
 let client: contentful.ContentfulClientApi;
 
 interface ContentfulSystem {
-	locale: string | undefined;
-	revision: number;
-	createdAt: string;
-	updatedAt: string;
 	id: string;
-}
-
-interface Methodology extends ContentfulSystem {
 	name: string;
 	iconURL?: string | undefined;
 	iconTitle?: string | undefined;
 	description?: string | undefined;
+	locale: string | undefined;
+	revision: number;
+	createdAt: string;
+	updatedAt: string;
+	
+}
+
+interface Methodology extends ContentfulSystem {
+
 }
 
 test();
@@ -43,6 +45,10 @@ function init(
 
 // Methodology Functions
 
+/**
+ * Get all the methodologies in contentful
+ * @returns list of Methodologies that exists in Contentful
+ */
 function getMethodologies(): Methodology[] {
 	let m: Methodology
 	let methodologies: Methodology[] = [];
@@ -53,29 +59,22 @@ function getMethodologies(): Methodology[] {
 		.then(function (entries) {
 			// console.log(entries);
 			entries.items.forEach(function (entry) {
-				console.log(entry.fields);
-				// m.createdAt = entry.sys.createdAt
-				// m.updatedAt = entry.sys.updatedAt
-				// m.id = entry.sys.id
-				// m.revision = entry.sys.revision
-				// m.locale = entry.sys.locale
-				// m.name = entry.fields.name
-				// m.description = entry.fields.description
 				m={
+					name : entry.fields.name,
+					id : entry.sys.id,
+					iconTitle: entry.fields.icon?.fields?.title,
+					iconURL: entry.fields.icon?.fields?.file?.url,
+					description :  entry.fields.description,
+					revision : entry.sys.revision,
 					createdAt : entry.sys.createdAt,
 					updatedAt : entry.sys.updatedAt,
-					id : entry.sys.id,
-					revision : entry.sys.revision,
 					locale : entry.sys.locale,
-					name : entry.fields.name,
-					iconURL: entry.fields.icon?.fields?.file?.url,
-					iconTitle: entry.fields.icon?.fields?.title,
-					description :  entry.fields.description
 				}
-				methodologies.push(m);
-				console.log(m)
+				console.log(methodologies.push(m));
+				// console.log(m)
 			});
 		});
+	console.log(methodologies.length)
 	return methodologies;
 }
 
@@ -88,5 +87,6 @@ function test() {
 
 	init(ACCESS_TOKEN, SPACE);
 
-	console.log(getMethodologies());
+	let m = getMethodologies()
+	console.log(m);
 }
