@@ -13,6 +13,6 @@
 		"vite": "^4.0.0"
 	},
 	"dependencies": {
-		"contentful": "^9.2.15"
+		"contentful": "10.0.0-beta-v10.8"
 	}
 }

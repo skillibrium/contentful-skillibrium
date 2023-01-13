@@ -1,18 +1,23 @@
 lockfileVersion: 5.4
 
 specifiers:
-  contentful: ^9.2.15
+  contentful: 10.0.0-beta-v10.8
   typescript: ^4.9.3
   vite: ^4.0.0
 
 dependencies:
-  contentful: 9.2.15
+  contentful: 10.0.0-beta-v10.8
 
 devDependencies:
   typescript: 4.9.4
   vite: 4.0.4
 
 packages:
+
+  /@contentful/rich-text-types/15.15.1:
+    resolution: {integrity: sha512-oheW0vkxWDuKBIIXDeJfZaRYo+NzKbC4gETMhH+MGJd4nfL9cqrOvtRxZBgnhICN4vDpH4my/zUIZGKcFqGSjQ==}
+    engines: {node: '>=6.0.0'}
+    dev: false
 
   /@esbuild/android-arm/0.16.17:
     resolution: {integrity: sha512-N9x1CMXVhtWEAMS7pNNONyA14f71VPQN9Cnavj1XQh6T7bskqiLLrSca4O0Vr8Wdcga943eThxnVp3JLnBMYtw==}
@@ -212,15 +217,10 @@ packages:
     dev: true
     optional: true
 
-  /asynckit/0.4.0:
-    resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
-    dev: false
-
-  /axios/0.27.2:
-    resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
+  /axios/0.26.1:
+    resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
       follow-redirects: 1.15.2
-      form-data: 4.0.0
     transitivePeerDependencies:
       - debug
     dev: false
@@ -230,13 +230,6 @@ packages:
     dependencies:
       function-bind: 1.1.1
       get-intrinsic: 1.1.3
-    dev: false
-
-  /combined-stream/1.0.8:
-    resolution: {integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==}
-    engines: {node: '>= 0.8'}
-    dependencies:
-      delayed-stream: 1.0.0
     dev: false
 
   /contentful-resolve-response/1.6.2:
@@ -257,23 +250,18 @@ packages:
       qs: 6.11.0
     dev: false
 
-  /contentful/9.2.15:
-    resolution: {integrity: sha512-/1pxNzLI1qe2JI5zxSfBJkHUM45UtaCthOzu8t65Bni/n0F+nZV8Aowjo76iJIqp1X03tesQqenriEsOWRbcNg==}
+  /contentful/10.0.0-beta-v10.8:
+    resolution: {integrity: sha512-a5rTHVsinZgWGEgD21EC2InnLstSwIrw5bfNEALAof0ihWEnHDRKSMZrHo5ZskokAfKXIZiKgG7F3mBKSmU5aQ==}
     engines: {node: '>=12'}
-    requiresBuild: true
     dependencies:
-      axios: 0.27.2
+      '@contentful/rich-text-types': 15.15.1
+      axios: 0.26.1
       contentful-resolve-response: 1.6.2
       contentful-sdk-core: 7.0.4
-      fast-copy: 2.1.7
       json-stringify-safe: 5.0.1
+      type-fest: 2.19.0
     transitivePeerDependencies:
       - debug
-    dev: false
-
-  /delayed-stream/1.0.0:
-    resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
-    engines: {node: '>=0.4.0'}
     dev: false
 
   /esbuild/0.16.17:
@@ -318,15 +306,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: false
-
-  /form-data/4.0.0:
-    resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
-    engines: {node: '>= 6'}
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      mime-types: 2.1.35
     dev: false
 
   /fsevents/2.3.2:
@@ -375,18 +354,6 @@ packages:
 
   /lodash.isstring/4.0.1:
     resolution: {integrity: sha512-0wJxfxH1wgO3GrbuP+dTTk7op+6L41QCXbGINEmD+ny/G/eCqGzxyCsh7159S+mgDDcoarnBw6PC1PS5+wUGgw==}
-    dev: false
-
-  /mime-db/1.52.0:
-    resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
-    engines: {node: '>= 0.6'}
-    dev: false
-
-  /mime-types/2.1.35:
-    resolution: {integrity: sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==}
-    engines: {node: '>= 0.6'}
-    dependencies:
-      mime-db: 1.52.0
     dev: false
 
   /nanoid/3.3.4:
@@ -462,6 +429,11 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
     dev: true
+
+  /type-fest/2.19.0:
+    resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
+    engines: {node: '>=12.20'}
+    dev: false
 
   /typescript/4.9.4:
     resolution: {integrity: sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==}
