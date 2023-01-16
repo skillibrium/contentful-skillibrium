@@ -18,14 +18,30 @@ interface ContentfulAsset {
 	iconTitle?: string | undefined;
 }
 
-interface Methodology extends ContentfulSystem, ContentfulAsset {}
+interface BusinessUnit extends ContentfulSystem {
+}
 
 interface CRMStage extends ContentfulSystem {
-	methodology: Methodology;
 }
 
 interface MethodologyCategory extends ContentfulSystem {
-	methodology: Methodology;
+}
+
+interface CoachingAbilityTag extends ContentfulSystem {
+}
+
+interface CoachingQuestion extends ContentfulSystem {
+	question: string;
+	willingAble: string;
+	businessUnit: BusinessUnit;
+	isStarRating: boolean;
+}
+
+interface Methodology extends ContentfulSystem, ContentfulAsset {
+	CRMStages: CRMStage[];
+	methodologyCategories: MethodologyCategory[]
+	coachingAbilityTags: CoachingAbilityTag[]
+	coachingQuestion: CoachingQuestion[]
 }
 
 test();
