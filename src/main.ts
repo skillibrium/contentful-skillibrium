@@ -33,15 +33,20 @@ interface CoachingAbilityTag extends ContentfulSystem {
 interface CoachingQuestion extends ContentfulSystem {
 	question: string;
 	willingAble: string;
-	businessUnit: BusinessUnit;
+	businessUnit?: BusinessUnit;
 	isStarRating: boolean;
 }
 
 interface Methodology extends ContentfulSystem, ContentfulAsset {
-	CRMStages: CRMStage[];
-	methodologyCategories: MethodologyCategory[]
-	coachingAbilityTags: CoachingAbilityTag[]
-	coachingQuestion: CoachingQuestion[]
+	CRMStages?: CRMStage[];
+	methodologyCategories?: MethodologyCategory[]
+	coachingAbilityTags?: CoachingAbilityTag[]
+	coachingQuestion?: CoachingQuestion[]
+}
+
+interface FullMethodologies {
+	businessUnits: BusinessUnit[]
+	methodologies: Methodology[]
 }
 
 test();
@@ -97,7 +102,13 @@ async function getMethodologies(): Promise<Methodology[]> {
 	return methodologies;
 }
 
-async function getCoaching(selectedMethodologies: string[]);
+/**
+ * 
+ * @param selectedMethodologies List of ids of the methodologies that we want to get
+ */
+async function getCoaching(selectedMethodologies: string[]):Promise<FullMethodologies>{
+	//TODO Implement this
+};
 
 /**
  * Test function that will not be used in the actual codebase
