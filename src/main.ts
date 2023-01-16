@@ -6,8 +6,6 @@ let client: contentful.ContentfulClientApi;
 interface ContentfulSystem {
 	id: string;
 	name: string;
-	iconURL?: string | undefined;
-	iconTitle?: string | undefined;
 	description?: string | undefined;
 	locale: string | undefined;
 	revision: number;
@@ -15,7 +13,20 @@ interface ContentfulSystem {
 	updatedAt: string;
 }
 
-interface Methodology extends ContentfulSystem {}
+interface ContentfulAsset {
+	iconURL?: string | undefined;
+	iconTitle?: string | undefined;
+}
+
+interface Methodology extends ContentfulSystem, ContentfulAsset {}
+
+interface CRMStage extends ContentfulSystem {
+	methodology: Methodology;
+}
+
+interface MethodologyCategory extends ContentfulSystem {
+	methodology: Methodology;
+}
 
 test();
 
@@ -50,7 +61,7 @@ async function getMethodologies(): Promise<Methodology[]> {
 	let m: Methodology;
 	let methodologies: Methodology[] = [];
 
-	const entries = await client.getEntries({content_type: "methodology",})
+	const entries = await client.getEntries({ content_type: "methodology" });
 	entries.items.forEach(function (entry) {
 		m = {
 			name: entry.fields.name,
@@ -66,9 +77,11 @@ async function getMethodologies(): Promise<Methodology[]> {
 		methodologies.push(m);
 		// console.log(methodologies);
 	});
-			
+
 	return methodologies;
 }
+
+async function getCoaching(selectedMethodologies: string[]);
 
 /**
  * Test function that will not be used in the actual codebase
