@@ -13,12 +13,9 @@ interface ContentfulSystem {
 	revision: number;
 	createdAt: string;
 	updatedAt: string;
-	
 }
 
-interface Methodology extends ContentfulSystem {
-
-}
+interface Methodology extends ContentfulSystem {}
 
 test();
 
@@ -49,44 +46,39 @@ function init(
  * Get all the methodologies in contentful
  * @returns list of Methodologies that exists in Contentful
  */
-function getMethodologies(): Methodology[] {
-	let m: Methodology
+async function getMethodologies(): Promise<Methodology[]> {
+	let m: Methodology;
 	let methodologies: Methodology[] = [];
-	client
-		.getEntries({
-			content_type: "methodology",
-		})
-		.then(function (entries) {
-			// console.log(entries);
-			entries.items.forEach(function (entry) {
-				m={
-					name : entry.fields.name,
-					id : entry.sys.id,
-					iconTitle: entry.fields.icon?.fields?.title,
-					iconURL: entry.fields.icon?.fields?.file?.url,
-					description :  entry.fields.description,
-					revision : entry.sys.revision,
-					createdAt : entry.sys.createdAt,
-					updatedAt : entry.sys.updatedAt,
-					locale : entry.sys.locale,
-				}
-				console.log(methodologies.push(m));
-				// console.log(m)
-			});
-		});
-	console.log(methodologies.length)
+
+	const entries = await client.getEntries({content_type: "methodology",})
+	entries.items.forEach(function (entry) {
+		m = {
+			name: entry.fields.name,
+			id: entry.sys.id,
+			iconTitle: entry.fields.icon?.fields?.title,
+			iconURL: entry.fields.icon?.fields?.file?.url,
+			description: entry.fields.description,
+			revision: entry.sys.revision,
+			createdAt: entry.sys.createdAt,
+			updatedAt: entry.sys.updatedAt,
+			locale: entry.sys.locale,
+		};
+		methodologies.push(m);
+		// console.log(methodologies);
+	});
+			
 	return methodologies;
 }
 
 /**
  * Test function that will not be used in the actual codebase
  */
-function test() {
+async function test() {
 	const ACCESS_TOKEN = "7rjVXUpBnvUC4BXz5CK0udDwDZjauDREL4eSo98vuio";
 	const SPACE = "sv54roagnofr";
 
 	init(ACCESS_TOKEN, SPACE);
 
-	let m = getMethodologies()
+	const m = await getMethodologies();
 	console.log(m);
 }
