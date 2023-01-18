@@ -15,31 +15,44 @@ interface ContentfulAsset {
 	iconTitle?: string | undefined;
 }
 
+export interface Certifications {
+	isCoachingCertified?: boolean;
+	isDMCertified?: boolean;
+}
+
 export interface BusinessUnit extends ContentfulSystem {}
 
-export interface CRMStage extends ContentfulSystem {}
+export interface CRMStage extends ContentfulSystem {
+	methodologyId: string;
+}
 
-export interface MethodologyCategory extends ContentfulSystem {}
+export interface MethodologyCategory extends ContentfulSystem {
+	methodologyId: string;
+}
 
-export interface CoachingAbilityTag extends ContentfulSystem {}
+export interface CoachingAbilityTag extends ContentfulSystem {
+	methodologyId: string;
+}
 
 export interface CoachingQuestion extends ContentfulSystem {
 	question: string;
 	willingAble: string;
-	businessUnit?: BusinessUnit;
 	isStarRating: boolean;
+	methodologyId?: string;
+	abilityCategoryId?: string;
+	abilityTagId?: string;
+	businessUnitId?: string;
 }
 
-export interface Methodology extends ContentfulSystem, ContentfulAsset {
-	isCoachingCertified: boolean;
-	isDMCertified: boolean;
-	CRMStages?: CRMStage[];
-	methodologyCategories?: MethodologyCategory[];
-	coachingAbilityTags?: CoachingAbilityTag[];
-	coachingQuestion?: CoachingQuestion[];
-}
+export interface Methodology
+	extends ContentfulSystem,
+		ContentfulAsset,
+		Certifications {}
 
-export interface FullMethodologies {
-	businessUnits: BusinessUnit[];
-	methodologies: Methodology[];
+export interface FullCoachingMethodologies {
+	businessUnits?: BusinessUnit[];
+	methodologies?: Methodology[];
+	abilityCategories?: MethodologyCategory[];
+	abilityTags?: CoachingAbilityTag[];
+	questions?: CoachingQuestion[];
 }
