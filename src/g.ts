@@ -1,13 +1,19 @@
 import { gql, ApolloClient } from "@apollo/client/core";
-import { isReference, isInlineFragment } from "@apollo/client/utilities";
+// import { isReference, isInlineFragment } from "@apollo/client/utilities";
 import { InMemoryCache, NormalizedCacheObject } from "@apollo/client/cache";
-
-const URL =
-	"https://graphql.contentful.com/content/v1/spaces/sv54roagnofr/environments/master?access_token=7rjVXUpBnvUC4BXz5CK0udDwDZjauDREL4eSo98vuio";
+import {
+	BusinessUnit,
+	Certifications,
+	MethodologyCategory,
+	CoachingAbilityTag,
+	CoachingQuestion,
+	Methodology,
+	FullCoachingMethodologies,
+} from "./interfaces";
 
 let client: ApolloClient<NormalizedCacheObject>;
 
-function initClient(
+export function initClient(
 	space: string,
 	accessToken: string,
 	environment: string,
@@ -19,10 +25,26 @@ function initClient(
 	});
 }
 
-export function g() {
-	const query = gql`
+export function getGQMethodologies({
+	isCoachingCertified = false,
+	isDMCertified = false,
+}: Certifications) {
+	const condition = {
+		...(isCoachingCertified && { isCoachingCertified: true }),
+		...(isDMCertified && { isDMCertified: true }),
+	};
+	const stringifiedCondition = JSON.stringify(condition).replace(
+		/"([^"]+)":/g,
+		"$1:",
+	);
+
+	// Should there be a "where" clause?
+	const whereClause =
+		Object.keys(condition).length > 0 ? `(where:${stringifiedCondition})` : "";
+
+	const queryString = `
 		query {
-			methodologyCollection {
+			methodologyCollection ${whereClause} {
 				items {
 					sys {
 						id
@@ -32,6 +54,8 @@ export function g() {
 			}
 		}
 	`;
+	console.log(queryString);
+	const query = gql`${queryString}`;
 
 	client.query({ query }).then((result) => console.log(result));
 }

@@ -1,7 +1,7 @@
 import "./style.css";
 import * as contentful from "contentful";
 
-import {g} from "./g";
+import { getGQMethodologies, initClient } from "./g";
 
 import {
 	BusinessUnit,
@@ -124,6 +124,7 @@ async function getCoaching(
 async function test() {
 	const ACCESS_TOKEN = "7rjVXUpBnvUC4BXz5CK0udDwDZjauDREL4eSo98vuio";
 	const SPACE = "sv54roagnofr";
+	const ENVIRONMENT = "master";
 
 	init(ACCESS_TOKEN, SPACE);
 
@@ -140,5 +141,8 @@ async function test() {
 
 	console.log(methodologies);
 
-	g();
+	initClient(SPACE, ACCESS_TOKEN, ENVIRONMENT);
+	getGQMethodologies({
+		isCoachingCertified: true,
+	});
 }
