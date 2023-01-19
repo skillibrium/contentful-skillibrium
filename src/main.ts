@@ -1,7 +1,14 @@
 import "./style.css";
 import * as contentful from "contentful";
 
-import { getGQMethodologies, getSelectedMethodologies, initClient } from "./g";
+import {
+	getGQMethodologies,
+	getSelectedMethodologies,
+	getSelectedMethodologyCategories,
+	getCRMStages,
+	getCoachingAbilities,
+	initClient,
+} from "./g";
 
 import {
 	BusinessUnit,
@@ -128,7 +135,7 @@ async function test() {
 
 	// init(ACCESS_TOKEN, SPACE);
 
-	// // // Get methodologies
+	// // Get methodologies
 	// const m = await getMethodologies({
 	// 	isCoachingCertified: true,
 	// });
@@ -145,8 +152,22 @@ async function test() {
 	// getGQMethodologies({
 	// 	isCoachingCertified: true,
 	// });
-	getSelectedMethodologies([
-		"2QKnI6T51yPp6h9HSylVpK",
-		"1lZQPJLQhYbHu7ZRYYSufO",
-	]);
+
+	// getSelectedMethodologies([
+	// 	"2QKnI6T51yPp6h9HSylVpK",
+	// 	"1lZQPJLQhYbHu7ZRYYSufO",
+	// ]);
+
+	// getSelectedMethodologyCategories([
+	// 	"2QKnI6T51yPp6h9HSylVpK",
+	// 	"1lZQPJLQhYbHu7ZRYYSufO",
+	// ]);
+
+	await getCRMStages(["2QKnI6T51yPp6h9HSylVpK", "1lZQPJLQhYbHu7ZRYYSufO"]);
+
+	// await getCoachingAbilities([
+	// 	"2QKnI6T51yPp6h9HSylVpK",
+	// 	"1lZQPJLQhYbHu7ZRYYSufO",
+	// 	"55kQlowECVmIlXMm4p3qpW",
+	// ]);
 }

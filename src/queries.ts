@@ -47,42 +47,160 @@ export function getSelectedMethodologiesQuery(
 	selectedMethodologyIds: string[],
 ): DocumentNode {
 	const selectedMethodologiesString = arrayToString(selectedMethodologyIds);
-	console.log(selectedMethodologiesString);
 	const queryString = `
 		query {
-		methodologyCollection
-		(
-			order: name_ASC, 
-			where: { 
-			sys:{id_in:${selectedMethodologiesString}}
-			}
-		) {
-			items {
-				sys {
-					id
-					publishedVersion
-					publishedAt
-					firstPublishedAt
+			methodologyCollection
+			(
+				order: name_ASC, 
+				where: { 
+				sys:{id_in:${selectedMethodologiesString}}
 				}
-				name
-				description
-				isCoachingCertified
-				isDmCertified
-				icon {
-					title
-					url
+			) {
+				items {
+					sys {
+						id
+						publishedVersion
+						publishedAt
+						firstPublishedAt
+					}
+					name
+					description
+					isCoachingCertified
+					isDmCertified
+					icon {
+						title
+						url
+					}
 				}
 			}
-		}
 		}
 	`;
 
-	console.log(queryString)
-	
+	// console.log(queryString);
+
 	return gql`${queryString}`;
 }
 
+export function getSelectedMethodologyCategoriesQuery(
+	selectedMethodologyIds: string[],
+): DocumentNode {
+	const selectedMethodologiesString = arrayToString(selectedMethodologyIds);
+	const queryString = `
+		query {
+			methodologyCategoryCollection(
+				order: name_ASC
+				where: {
+				methodology: {
+					sys: {
+						id_in: ${selectedMethodologiesString}
+					}
+				}
+				}
+			) {
+				items {
+					methodology {
+						sys {
+							id
+						}
+					}
+					sys {
+						id
+						publishedVersion
+						publishedAt
+						firstPublishedAt
+					}
+					name
+					description
+					}
+				}
+			}
+	`;
 
-function arrayToString(arr:string[]):string{
+	// console.log(queryString);
+
+	return gql`${queryString}`;
+}
+
+export function getCRMStageQuery(
+	selectedMethodologyIds: string[],
+): DocumentNode {
+	const selectedMethodologiesString = arrayToString(selectedMethodologyIds);
+	const queryString = `
+		query {
+			crmStageCollection(
+				order: name_ASC
+				where: {
+				methodology: {
+					sys: {
+						id_in: ${selectedMethodologiesString}
+					}
+				}
+				}
+			) {
+				items {
+					methodology {
+						sys {
+							id
+						}
+					}
+					sys {
+						id
+						publishedVersion
+						publishedAt
+						firstPublishedAt
+					}
+					name
+					description
+					}
+				}
+			}
+	`;
+
+	// console.log(queryString);
+
+	return gql`${queryString}`;
+}
+
+export function getCoachingAbilityQuery(
+		selectedMethodologyIds: string[],
+	): DocumentNode {
+		const selectedMethodologiesString = arrayToString(selectedMethodologyIds);
+		const queryString = `
+		query {
+			coachingCategoryCollection(
+				order: name_ASC
+				where: {
+				methodology: {
+					sys: {
+						id_in: ${selectedMethodologiesString}
+					}
+				}
+				}
+			) {
+				items {
+					methodology {
+						sys {
+							id
+						}
+					}
+					sys {
+						id
+						publishedVersion
+						publishedAt
+						firstPublishedAt
+					}
+					name
+					description
+					}
+				}
+			}
+	`;
+
+		// console.log(queryString);
+
+		return gql`${queryString}`;
+	}
+
+function arrayToString(arr: string[]): string {
 	return `["${arr.join('","')}"]`;
 }
