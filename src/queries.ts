@@ -1,9 +1,10 @@
 import { Certifications } from "./interfaces";
+import { DocumentNode, gql } from "@apollo/client/core";
 
 export function getMethodologiesQuery({
 	isCoachingCertified = false,
 	isDMCertified = false,
-}: Certifications): string {
+}: Certifications): DocumentNode {
 	const condition = {
 		...(isCoachingCertified && { isCoachingCertified: true }),
 		...(isDMCertified && { isDMCertified: true }),
@@ -17,7 +18,7 @@ export function getMethodologiesQuery({
 	const whereClause =
 		Object.keys(condition).length > 0 ? `where: ${stringifiedCondition}` : "";
 
-	const queryString = `
+	const queryString = gql`
 		query {
 			methodologyCollection (order: name_ASC, ${whereClause}) {
 				items {
@@ -40,4 +41,48 @@ export function getMethodologiesQuery({
 		}
 	`;
 	return queryString;
+}
+
+export function getSelectedMethodologiesQuery(
+	selectedMethodologyIds: string[],
+): DocumentNode {
+	const selectedMethodologiesString = arrayToString(selectedMethodologyIds);
+	console.log(selectedMethodologiesString);
+	const queryString = `
+		query {
+		methodologyCollection
+		(
+			order: name_ASC, 
+			where: { 
+			sys:{id_in:${selectedMethodologiesString}}
+			}
+		) {
+			items {
+				sys {
+					id
+					publishedVersion
+					publishedAt
+					firstPublishedAt
+				}
+				name
+				description
+				isCoachingCertified
+				isDmCertified
+				icon {
+					title
+					url
+				}
+			}
+		}
+		}
+	`;
+
+	console.log(queryString)
+	
+	return gql`${queryString}`;
+}
+
+
+function arrayToString(arr:string[]):string{
+	return `["${arr.join('","')}"]`;
 }

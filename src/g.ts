@@ -1,7 +1,10 @@
 import { gql, ApolloClient } from "@apollo/client/core";
 // import { isReference, isInlineFragment } from "@apollo/client/utilities";
 import { InMemoryCache, NormalizedCacheObject } from "@apollo/client/cache";
-import { getMethodologiesQuery } from "./queries";
+import {
+	getMethodologiesQuery,
+	getSelectedMethodologiesQuery,
+} from "./queries";
 
 import {
 	BusinessUnit,
@@ -21,6 +24,7 @@ export function initClient(
 	environment: string,
 ): void {
 	const uri = `https://graphql.contentful.com/content/v1/spaces/${space}/environments/${environment}?access_token=${accessToken}`;
+	console.log(uri)
 	client = new ApolloClient({
 		uri,
 		cache: new InMemoryCache(),
@@ -28,8 +32,8 @@ export function initClient(
 }
 
 export async function getGQMethodologies(certifications: Certifications) {
-	// console.log(queryString);
-	const query = gql`${getMethodologiesQuery(certifications)}`;
+	
+	const query = getMethodologiesQuery(certifications);
 
 	// client.query({ query }).then((result) => console.log(result));
 	const result = await client.query({ query });
@@ -39,10 +43,19 @@ export async function getGQMethodologies(certifications: Certifications) {
 	});
 }
 
+export async function getSelectedMethodologies(selectedMethodologyIds: string[],){
+	const query = getSelectedMethodologiesQuery(selectedMethodologyIds);
+	const result = await client.query({ query });
+	result.data.methodologyCollection.items.forEach((entry) => {
+		// console.log(entry);
+		console.log(mapEntryToMethodology(entry));
+	});
+}
 
 // rome-ignore lint/suspicious/noExplicitAny: <explanation>
 function mapEntryToMethodology(entry: any): Methodology {
 	console.log("Entry", entry);
+
 	return {
 		name: entry.name,
 		id: entry.sys.id,
