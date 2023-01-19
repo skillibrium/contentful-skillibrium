@@ -121,7 +121,7 @@ export function getSelectedMethodologyCategoriesQuery(
 	return gql`${queryString}`;
 }
 
-export function getCRMStageQuery(
+export function getCRMStagesQuery(
 	selectedMethodologyIds: string[],
 ): DocumentNode {
 	const selectedMethodologiesString = arrayToString(selectedMethodologyIds);
@@ -161,7 +161,7 @@ export function getCRMStageQuery(
 	return gql`${queryString}`;
 }
 
-export function getCoachingAbilityQuery(
+export function getCoachingAbilitiesQuery(
 		selectedMethodologyIds: string[],
 	): DocumentNode {
 		const selectedMethodologiesString = arrayToString(selectedMethodologyIds);
@@ -200,6 +200,27 @@ export function getCoachingAbilityQuery(
 
 		return gql`${queryString}`;
 	}
+
+	export function getBusinessUnitsQuery(): DocumentNode {
+		const queryString = `
+		query {
+			businessUnitCollection(order: name_ASC) {
+				items {
+					sys {
+						id
+						publishedVersion
+						publishedAt
+						firstPublishedAt
+					}
+					name
+					description
+					}
+				}
+			}
+	`;
+		return gql`${queryString}`;
+	}
+
 
 function arrayToString(arr: string[]): string {
 	return `["${arr.join('","')}"]`;

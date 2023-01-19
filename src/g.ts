@@ -1,13 +1,22 @@
-import { gql, ApolloClient } from "@apollo/client/core";
+import { ApolloClient } from "@apollo/client/core";
 // import { isReference, isInlineFragment } from "@apollo/client/utilities";
 import { InMemoryCache, NormalizedCacheObject } from "@apollo/client/cache";
 import {
 	getMethodologiesQuery,
 	getSelectedMethodologiesQuery,
 	getSelectedMethodologyCategoriesQuery,
-	getCRMStageQuery,
-	getCoachingAbilityQuery,
+	getCRMStagesQuery,
+	getCoachingAbilitiesQuery,
+	getBusinessUnitsQuery,
 } from "./queries";
+
+import {
+	mapEntryToBusinessUnit,
+	mapEntryToCoachingAbility,
+	mapEntryToCRMStage,
+	mapEntryToMethodology,
+	mapEntryToMethodologyCategory,
+} from "./mapEntries";
 
 import {
 	BusinessUnit,
@@ -44,7 +53,7 @@ export async function getGQMethodologies(
 	result.data.methodologyCollection.items.forEach((entry) => {
 		methodologies.push(mapEntryToMethodology(entry));
 	});
-	console.log(methodologies);
+	// console.log(methodologies);
 	return methodologies;
 }
 
@@ -58,7 +67,7 @@ export async function getSelectedMethodologies(
 	result.data.methodologyCollection.items.forEach((entry) => {
 		methodologies.push(mapEntryToMethodology(entry));
 	});
-	console.log(methodologies);
+	// console.log(methodologies);
 	return methodologies;
 }
 
@@ -71,88 +80,47 @@ export async function getSelectedMethodologyCategories(
 	result.data.methodologyCategoryCollection.items.forEach((entry) => {
 		methodologyCategories.push(mapEntryToMethodologyCategory(entry));
 	});
-	console.log(methodologyCategories);
+	// console.log(methodologyCategories);
 	return methodologyCategories;
 }
 
 export async function getCRMStages(
 	selectedMethodologyIds: string[],
 ): Promise<CRMStage[]> {
-	const query = getCRMStageQuery(selectedMethodologyIds);
+	const query = getCRMStagesQuery(selectedMethodologyIds);
 	const result = await client.query({ query });
 	let crmStages: CRMStage[] = new Array();
 
 	result.data.crmStageCollection.items.forEach((entry) => {
 		crmStages.push(mapEntryToCRMStage(entry));
 	});
-	console.log(crmStages);
+	// console.log(crmStages);
 	return crmStages;
 }
 
 export async function getCoachingAbilities(
 	selectedMethodologyIds: string[],
 ): Promise<CoachingAbilityTag[]> {
-	const query = getCoachingAbilityQuery(selectedMethodologyIds);
+	const query = getCoachingAbilitiesQuery(selectedMethodologyIds);
 	const result = await client.query({ query });
-	let coachingAbilityTag: CoachingAbilityTag[] = new Array();
+	let coachingAbilitiesTag: CoachingAbilityTag[] = new Array();
+	
 	result.data.coachingCategoryCollection.items.forEach((entry) => {
-		coachingAbilityTag.push(mapEntryToCoachingAbility(entry));
+		coachingAbilitiesTag.push(mapEntryToCoachingAbility(entry));
 	});
-	console.log(coachingAbilityTag);
-	return coachingAbilityTag;
+	// console.log(coachingAbilitiesTag);
+	return coachingAbilitiesTag;
 }
 
-// rome-ignore lint/suspicious/noExplicitAny: <explanation>
-function mapEntryToMethodology(entry: any): Methodology {
-	return {
-		name: entry.name,
-		id: entry.sys.id,
-		isCoachingCertified: entry.isCoachingCertified,
-		isDMCertified: entry.isDmCertified,
-		description: entry.description,
-		iconURL: entry.icon?.url,
-		iconTitle: entry.icon?.title,
-		version: entry.sys.publishedVersion,
-		createdAt: entry.sys.firstPublishedAt,
-		updatedAt: entry.sys.publishedAt,
-	};
-}
+export async function getBusinessUnits(): Promise<BusinessUnit[]> {
+		const query = getBusinessUnitsQuery();
+		const result = await client.query({ query });
+		let businessUnits: BusinessUnit[] = new Array();
 
-// rome-ignore lint/suspicious/noExplicitAny: <explanation>
-function mapEntryToMethodologyCategory(entry: any): MethodologyCategory {
-	return {
-		name: entry.name,
-		id: entry.sys.id,
-		methodologyId: entry.methodology.sys.id,
-		description: entry.description,
-		version: entry.sys.publishedVersion,
-		createdAt: entry.sys.firstPublishedAt,
-		updatedAt: entry.sys.publishedAt,
-	};
-}
+		result.data.businessUnitCollection.items.forEach((entry: any) => {
+			businessUnits.push(mapEntryToBusinessUnit(entry));
+		});
+		// console.log(businessUnits);
+		return businessUnits;
+	}
 
-// rome-ignore lint/suspicious/noExplicitAny: <explanation>
-function mapEntryToCRMStage(entry: any): MethodologyCategory {
-	return {
-		name: entry.name,
-		id: entry.sys.id,
-		methodologyId: entry.methodology.sys.id,
-		description: entry.description,
-		version: entry.sys.publishedVersion,
-		createdAt: entry.sys.firstPublishedAt,
-		updatedAt: entry.sys.publishedAt,
-	};
-}
-
-// rome-ignore lint/suspicious/noExplicitAny: <explanation>
-function mapEntryToCoachingAbility(entry: any): MethodologyCategory {
-	return {
-		name: entry.name,
-		id: entry.sys.id,
-		methodologyId: entry.methodology.sys.id,
-		description: entry.description,
-		version: entry.sys.publishedVersion,
-		createdAt: entry.sys.firstPublishedAt,
-		updatedAt: entry.sys.publishedAt,
-	};
-}

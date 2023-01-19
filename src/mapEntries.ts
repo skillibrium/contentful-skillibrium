@@ -1,41 +1,74 @@
-import * as contentful from "contentful";
+import { BusinessUnit } from "./interfaces";
 import {
-	BusinessUnit,
 	CRMStage,
 	MethodologyCategory,
 	CoachingAbilityTag,
-	CoachingQuestion,
 	Methodology,
-	FullCoachingMethodologies,
 } from "./interfaces";
-import { FieldsType } from "contentful/dist/types/types/query/util";
 
-export function mapEntryToMethodology(
-	entry: contentful.EntryWithLinkResolutionAndWithUnresolvableLinks<FieldsType>,
-): Methodology {
+// rome-ignore lint/suspicious/noExplicitAny: <explanation>
+export function mapEntryToMethodology(entry: any): Methodology {
 	return {
-		name: entry.fields.name,
+		name: entry.name,
 		id: entry.sys.id,
-		isCoachingCertified: entry.fields.isCoachingCertified,
-		isDMCertified: entry.fields.isDMCertified,
-		description: entry.fields.description,
-		iconURL: entry.fields.icon?.fields.file.url,
-		iconTitle: entry.fields.icon?.fields.title,
-		version: entry.sys.revision,
-		createdAt: entry.sys.createdAt,
-		updatedAt: entry.sys.updatedAt,
+		isCoachingCertified: entry.isCoachingCertified,
+		isDMCertified: entry.isDmCertified,
+		description: entry.description,
+		iconURL: entry.icon?.url,
+		iconTitle: entry.icon?.title,
+		version: entry.sys.publishedVersion,
+		createdAt: entry.sys.firstPublishedAt,
+		updatedAt: entry.sys.publishedAt,
 	};
 }
 
-export function mapEntryToBusinessUnit(
-	entry: contentful.EntryWithLinkResolutionAndWithUnresolvableLinks<FieldsType>,
-): BusinessUnit {
+// rome-ignore lint/suspicious/noExplicitAny: <explanation>
+export function mapEntryToMethodologyCategory(entry: any): MethodologyCategory {
 	return {
-		name: entry.fields.name,
+		name: entry.name,
 		id: entry.sys.id,
-		description: entry.fields.description,
-		version: entry.sys.revision,
-		createdAt: entry.sys.createdAt,
-		updatedAt: entry.sys.updatedAt,
+		methodologyId: entry.methodology.sys.id,
+		description: entry.description,
+		version: entry.sys.publishedVersion,
+		createdAt: entry.sys.firstPublishedAt,
+		updatedAt: entry.sys.publishedAt,
+	};
+}
+
+// rome-ignore lint/suspicious/noExplicitAny: <explanation>
+export function mapEntryToCRMStage(entry: any): CRMStage {
+	return {
+		name: entry.name,
+		id: entry.sys.id,
+		methodologyId: entry.methodology.sys.id,
+		description: entry.description,
+		version: entry.sys.publishedVersion,
+		createdAt: entry.sys.firstPublishedAt,
+		updatedAt: entry.sys.publishedAt,
+	};
+}
+
+// rome-ignore lint/suspicious/noExplicitAny: <explanation>
+export function mapEntryToCoachingAbility(entry: any): CoachingAbilityTag {
+	return {
+		name: entry.name,
+		id: entry.sys.id,
+		methodologyId: entry.methodology.sys.id,
+		description: entry.description,
+		version: entry.sys.publishedVersion,
+		createdAt: entry.sys.firstPublishedAt,
+		updatedAt: entry.sys.publishedAt,
+	};
+}
+
+// rome-ignore lint/suspicious/noExplicitAny: <explanation>
+export function mapEntryToBusinessUnit(entry: any): BusinessUnit {
+	return {
+		name: entry.name,
+		id: entry.sys.id,
+		description: entry.description,
+		version: entry.sys.publishedVersion,
+		createdAt: entry.sys.firstPublishedAt,
+		updatedAt: entry.sys.publishedAt,
 	};
 }
