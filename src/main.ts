@@ -126,20 +126,20 @@ async function test() {
 	const SPACE = "sv54roagnofr";
 	const ENVIRONMENT = "master";
 
-	init(ACCESS_TOKEN, SPACE);
+	// init(ACCESS_TOKEN, SPACE);
 
-	// // Get methodologies
-	const m = await getMethodologies({
-		isCoachingCertified: true,
-	});
-	console.log(m);
+	// // // Get methodologies
+	// const m = await getMethodologies({
+	// 	isCoachingCertified: true,
+	// });
+	// console.log(m);
 
-	const methodologies = await getCoaching([
-		"4KyuajUmAYhaPO8rhHhP77",
-		"1lZQPJLQhYbHu7ZRYYSufO",
-	]);
+	// const methodologies = await getCoaching([
+	// 	"4KyuajUmAYhaPO8rhHhP77",
+	// 	"1lZQPJLQhYbHu7ZRYYSufO",
+	// ]);
 
-	console.log(methodologies);
+	// console.log(methodologies);
 
 	initClient(SPACE, ACCESS_TOKEN, ENVIRONMENT);
 	getGQMethodologies({

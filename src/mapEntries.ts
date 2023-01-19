@@ -21,10 +21,9 @@ export function mapEntryToMethodology(
 		description: entry.fields.description,
 		iconURL: entry.fields.icon?.fields.file.url,
 		iconTitle: entry.fields.icon?.fields.title,
-		revision: entry.sys.revision,
+		version: entry.sys.revision,
 		createdAt: entry.sys.createdAt,
 		updatedAt: entry.sys.updatedAt,
-		locale: entry.sys.locale,
 	};
 }
 
@@ -35,9 +34,8 @@ export function mapEntryToBusinessUnit(
 		name: entry.fields.name,
 		id: entry.sys.id,
 		description: entry.fields.description,
-		revision: entry.sys.revision,
+		version: entry.sys.revision,
 		createdAt: entry.sys.createdAt,
 		updatedAt: entry.sys.updatedAt,
-		locale: entry.sys.locale,
 	};
 }

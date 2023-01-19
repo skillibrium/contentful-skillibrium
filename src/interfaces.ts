@@ -4,8 +4,7 @@ interface ContentfulSystem {
 	id: string;
 	name: string;
 	description?: string | undefined;
-	locale: string | undefined;
-	revision: number;
+	version: number;
 	createdAt: string;
 	updatedAt: string;
 }
