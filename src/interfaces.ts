@@ -2,7 +2,7 @@
 
 interface ContentfulSystem {
 	id: string;
-	name: string;
+	name?: string;
 	description?: string | undefined;
 	version: number;
 	createdAt: string;
@@ -40,7 +40,7 @@ export interface CoachingQuestion extends ContentfulSystem {
 	methodologyId?: string;
 	abilityCategoryId?: string;
 	abilityTagId?: string;
-	businessUnitId?: string;
+	businessUnitIds?: string[];
 }
 
 export interface Methodology

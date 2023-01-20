@@ -8,11 +8,13 @@ import {
 	getCRMStagesQuery,
 	getCoachingAbilitiesQuery,
 	getBusinessUnitsQuery,
+	getCoachingQuestionsQuery,
 } from "./queries";
 
 import {
 	mapEntryToBusinessUnit,
 	mapEntryToCoachingAbility,
+	mapEntryToCoachingQuestion,
 	mapEntryToCRMStage,
 	mapEntryToMethodology,
 	mapEntryToMethodologyCategory,
@@ -104,7 +106,7 @@ export async function getCoachingAbilities(
 	const query = getCoachingAbilitiesQuery(selectedMethodologyIds);
 	const result = await client.query({ query });
 	let coachingAbilitiesTag: CoachingAbilityTag[] = new Array();
-	
+
 	result.data.coachingCategoryCollection.items.forEach((entry) => {
 		coachingAbilitiesTag.push(mapEntryToCoachingAbility(entry));
 	});
@@ -113,14 +115,27 @@ export async function getCoachingAbilities(
 }
 
 export async function getBusinessUnits(): Promise<BusinessUnit[]> {
-		const query = getBusinessUnitsQuery();
-		const result = await client.query({ query });
-		let businessUnits: BusinessUnit[] = new Array();
+	const query = getBusinessUnitsQuery();
+	const result = await client.query({ query });
+	let businessUnits: BusinessUnit[] = new Array();
 
-		result.data.businessUnitCollection.items.forEach((entry: any) => {
-			businessUnits.push(mapEntryToBusinessUnit(entry));
-		});
-		// console.log(businessUnits);
-		return businessUnits;
-	}
+	result.data.businessUnitCollection.items.forEach((entry: any) => {
+		businessUnits.push(mapEntryToBusinessUnit(entry));
+	});
+	// console.log(businessUnits);
+	return businessUnits;
+}
 
+export async function getCoachingQuestions(
+	selectedMethodologyIds: string[],
+): Promise<CoachingQuestion[]> {
+	const query = getCoachingQuestionsQuery(selectedMethodologyIds);
+	const result = await client.query({ query });
+	let coachingQuestions: CoachingQuestion[] = new Array();
+
+	result.data.coachingQuestionCollection.items.forEach((entry: any) => {
+		coachingQuestions.push(mapEntryToCoachingQuestion(entry));
+	});
+	console.log(coachingQuestions);
+	return coachingQuestions;
+}

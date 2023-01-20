@@ -162,10 +162,10 @@ export function getCRMStagesQuery(
 }
 
 export function getCoachingAbilitiesQuery(
-		selectedMethodologyIds: string[],
-	): DocumentNode {
-		const selectedMethodologiesString = arrayToString(selectedMethodologyIds);
-		const queryString = `
+	selectedMethodologyIds: string[],
+): DocumentNode {
+	const selectedMethodologiesString = arrayToString(selectedMethodologyIds);
+	const queryString = `
 		query {
 			coachingCategoryCollection(
 				order: name_ASC
@@ -196,31 +196,76 @@ export function getCoachingAbilitiesQuery(
 			}
 	`;
 
-		// console.log(queryString);
+	// console.log(queryString);
 
-		return gql`${queryString}`;
-	}
+	return gql`${queryString}`;
+}
 
-	export function getBusinessUnitsQuery(): DocumentNode {
-		const queryString = `
+export function getBusinessUnitsQuery(): DocumentNode {
+	const queryString = `
+	query {
+		businessUnitCollection(order: name_ASC) {
+			items {
+				sys {
+					id
+					publishedVersion
+					publishedAt
+					firstPublishedAt
+				}
+				name
+				description
+				}
+			}
+		}
+`;
+	return gql`${queryString}`;
+}
+
+export function getCoachingQuestionsQuery(
+	selectedMethodologyIds: string[],
+): DocumentNode {
+	const selectedMethodologiesString = arrayToString(selectedMethodologyIds);
+	// TODO This is not the right query
+	const queryString = `
 		query {
-			businessUnitCollection(order: name_ASC) {
+			coachingQuestionCollection(
+				where: {
+					methodology: {
+						sys: {
+							id_in: ${selectedMethodologiesString}
+						}
+					}
+				}
+			) 
+			{
 				items {
+					methodology {
+						sys {
+							id
+						}
+					}
 					sys {
 						id
 						publishedVersion
 						publishedAt
 						firstPublishedAt
 					}
-					name
+					question
 					description
-					}
+					willingAble
+					isStarRating
+					methodologyCategory{sys{id}}
+					abilityTag{sys{id}}
+					businessUnitCollection{items{sys{id}}}
 				}
 			}
+		}
 	`;
-		return gql`${queryString}`;
-	}
 
+	// console.log(queryString);
+
+	return gql`${queryString}`;
+}
 
 function arrayToString(arr: string[]): string {
 	return `["${arr.join('","')}"]`;

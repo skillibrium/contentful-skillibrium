@@ -1,5 +1,4 @@
 import "./style.css";
-import * as contentful from "contentful";
 
 import {
 	getGQMethodologies,
@@ -9,7 +8,8 @@ import {
 	getCoachingAbilities,
 	initClient,
 	getBusinessUnits,
-} from "./g";
+	getCoachingQuestions,
+} from "./contentful";
 
 import {
 	BusinessUnit,
@@ -32,7 +32,7 @@ async function test() {
 	const ACCESS_TOKEN = "7rjVXUpBnvUC4BXz5CK0udDwDZjauDREL4eSo98vuio";
 	const SPACE = "sv54roagnofr";
 	const ENVIRONMENT = "master";
-	const selectedMethodologiesArray = [
+	const methodologiesArray = [
 		"2QKnI6T51yPp6h9HSylVpK",
 		"1lZQPJLQhYbHu7ZRYYSufO",
 		"55kQlowECVmIlXMm4p3qpW",
@@ -44,17 +44,21 @@ async function test() {
 	});
 
 	let selectedMethodologies: Methodology[] = await getSelectedMethodologies(
-		selectedMethodologiesArray,
+		methodologiesArray,
 	);
 
 	let methodologyCategories: MethodologyCategory[] =
-		await getSelectedMethodologyCategories(selectedMethodologiesArray);
+		await getSelectedMethodologyCategories(methodologiesArray);
 
-	let crmStages: CRMStage[] = await getCRMStages(selectedMethodologiesArray);
+	let crmStages: CRMStage[] = await getCRMStages(methodologiesArray);
 
 	let coachingAbilitiesTag: CoachingAbilityTag[] = await getCoachingAbilities(
-		selectedMethodologiesArray,
+		methodologiesArray,
 	);
 
 	const businessUnits: BusinessUnit[] = await getBusinessUnits();
+
+	const coachingQuestions: CoachingQuestion[] = await getCoachingQuestions(
+		methodologiesArray,
+	);
 }

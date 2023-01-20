@@ -1,4 +1,4 @@
-import { BusinessUnit } from "./interfaces";
+import { BusinessUnit, CoachingQuestion } from "./interfaces";
 import {
 	CRMStage,
 	MethodologyCategory,
@@ -70,5 +70,31 @@ export function mapEntryToBusinessUnit(entry: any): BusinessUnit {
 		version: entry.sys.publishedVersion,
 		createdAt: entry.sys.firstPublishedAt,
 		updatedAt: entry.sys.publishedAt,
+	};
+}
+
+// TODO This is not the right mapping
+// rome-ignore lint/suspicious/noExplicitAny: <explanation>
+export function mapEntryToCoachingQuestion(entry: any): CoachingQuestion {
+	let businessUnitIds: string[] = new Array();
+	if (entry.businessUnitCollection.items.length > 0) {
+		entry.businessUnitCollection.items.forEach((businessUnit) => {
+			businessUnitIds.push(businessUnit.sys.id);
+		});
+	}
+
+	return {
+		question: entry.question,
+		id: entry.sys.id,
+		description: entry.description,
+		version: entry.sys.publishedVersion,
+		createdAt: entry.sys.firstPublishedAt,
+		updatedAt: entry.sys.publishedAt,
+		willingAble: entry.willingAble,
+		isStarRating: entry.isStarRating,
+		methodologyId: entry.methodology?.sys.id,
+		abilityCategoryId: entry.methodologyCategory?.sys.id,
+		abilityTagId: entry.abilityTag?.sys.id,
+		businessUnitIds,
 	};
 }
