@@ -73,14 +73,15 @@ export function mapEntryToBusinessUnit(entry: any): BusinessUnit {
 	};
 }
 
-// TODO This is not the right mapping
 // rome-ignore lint/suspicious/noExplicitAny: <explanation>
 export function mapEntryToCoachingQuestion(entry: any): CoachingQuestion {
 	let businessUnitIds: string[] = new Array();
 	if (entry.businessUnitCollection.items.length > 0) {
-		entry.businessUnitCollection.items.forEach((businessUnit) => {
-			businessUnitIds.push(businessUnit.sys.id);
-		});
+		entry.businessUnitCollection.items.forEach(
+			(businessUnit: { sys: { id: string } }) => {
+				businessUnitIds.push(businessUnit.sys.id);
+			},
+		);
 	}
 
 	return {

@@ -1,27 +1,15 @@
 import "./style.css";
 
 import {
-	getGQMethodologies,
 	getSelectedMethodologies,
 	getSelectedMethodologyCategories,
-	getCRMStages,
 	getCoachingAbilities,
 	initClient,
 	getBusinessUnits,
 	getCoachingQuestions,
 } from "./contentful";
 
-import {
-	BusinessUnit,
-	Certifications,
-	MethodologyCategory,
-	CoachingAbilityTag,
-	CoachingQuestion,
-	Methodology,
-	FullCoachingMethodologies,
-	CRMStage,
-} from "./interfaces";
-import { FieldsType } from "contentful/dist/types/types/query/util";
+import { FullCoachingMethodologies } from "./interfaces";
 
 test();
 
@@ -39,26 +27,49 @@ async function test() {
 	];
 
 	initClient(SPACE, ACCESS_TOKEN, ENVIRONMENT);
-	let methodologies: Methodology[] = await getGQMethodologies({
-		isCoachingCertified: true,
-	});
+	// let methodologies: Methodology[] = await getMethodologies({
+	// 	isCoachingCertified: true,
+	// });
 
-	let selectedMethodologies: Methodology[] = await getSelectedMethodologies(
-		methodologiesArray,
-	);
+	// let crmStages: CRMStage[] = await getCRMStages(methodologiesArray);
 
-	let methodologyCategories: MethodologyCategory[] =
-		await getSelectedMethodologyCategories(methodologiesArray);
+	// let selectedMethodologies: Methodology[] = await getSelectedMethodologies(
+	// 	methodologiesArray,
+	// );
 
-	let crmStages: CRMStage[] = await getCRMStages(methodologiesArray);
+	// let methodologyCategories: MethodologyCategory[] =
+	// 	await getSelectedMethodologyCategories(methodologiesArray);
 
-	let coachingAbilitiesTag: CoachingAbilityTag[] = await getCoachingAbilities(
-		methodologiesArray,
-	);
+	// let coachingAbilitiesTag: CoachingAbilityTag[] = await getCoachingAbilities(
+	// 	methodologiesArray,
+	// );
 
-	const businessUnits: BusinessUnit[] = await getBusinessUnits();
+	// const businessUnits: BusinessUnit[] = await getBusinessUnits();
 
-	const coachingQuestions: CoachingQuestion[] = await getCoachingQuestions(
-		methodologiesArray,
-	);
+	// const coachingQuestions: CoachingQuestion[] = await getCoachingQuestions(
+	// 	methodologiesArray,
+	// );
+
+	const [
+		selectedMethodologies,
+		methodologyCategories,
+		coachingAbilitiesTag,
+		businessUnits,
+		coachingQuestions,
+	] = await Promise.all([
+		getSelectedMethodologies(methodologiesArray),
+		getSelectedMethodologyCategories(methodologiesArray),
+		getCoachingAbilities(methodologiesArray),
+		getBusinessUnits(),
+		getCoachingQuestions(methodologiesArray),
+	]);
+
+	const coachingMethodologies: FullCoachingMethodologies = {
+		businessUnits: businessUnits,
+		methodologies: selectedMethodologies,
+		abilityCategories: methodologyCategories,
+		abilityTags: coachingAbilitiesTag,
+		questions: coachingQuestions,
+	};
+	console.log(coachingMethodologies);
 }

@@ -225,7 +225,6 @@ export function getCoachingQuestionsQuery(
 	selectedMethodologyIds: string[],
 ): DocumentNode {
 	const selectedMethodologiesString = arrayToString(selectedMethodologyIds);
-	// TODO This is not the right query
 	const queryString = `
 		query {
 			coachingQuestionCollection(
@@ -235,6 +234,44 @@ export function getCoachingQuestionsQuery(
 							id_in: ${selectedMethodologiesString}
 						}
 					}
+				}
+			) 
+			{
+				items {
+					methodology {
+						sys {
+							id
+						}
+					}
+					sys {
+						id
+						publishedVersion
+						publishedAt
+						firstPublishedAt
+					}
+					question
+					description
+					willingAble
+					isStarRating
+					methodologyCategory{sys{id}}
+					abilityTag{sys{id}}
+					businessUnitCollection{items{sys{id}}}
+				}
+			}
+		}
+	`;
+
+	// console.log(queryString);
+
+	return gql`${queryString}`;
+}
+
+export function getUnattachedCoachingQuestionsQuery(): DocumentNode {
+	const queryString = `
+		query {
+			coachingQuestionCollection(
+				where: {
+					methodology_exists: false
 				}
 			) 
 			{

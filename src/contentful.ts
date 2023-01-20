@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { ApolloClient } from "@apollo/client/core";
 // import { isReference, isInlineFragment } from "@apollo/client/utilities";
 import { InMemoryCache, NormalizedCacheObject } from "@apollo/client/cache";
@@ -9,6 +11,7 @@ import {
 	getCoachingAbilitiesQuery,
 	getBusinessUnitsQuery,
 	getCoachingQuestionsQuery,
+	getUnattachedCoachingQuestionsQuery,
 } from "./queries";
 
 import {
@@ -27,7 +30,6 @@ import {
 	CRMStage,
 	CoachingQuestion,
 	Methodology,
-	FullCoachingMethodologies,
 	CoachingAbilityTag,
 } from "./interfaces";
 
@@ -45,7 +47,7 @@ export function initClient(
 	});
 }
 
-export async function getGQMethodologies(
+export async function getMethodologies(
 	certifications: Certifications,
 ): Promise<Methodology[]> {
 	const query = getMethodologiesQuery(certifications);
@@ -119,7 +121,7 @@ export async function getBusinessUnits(): Promise<BusinessUnit[]> {
 	const result = await client.query({ query });
 	let businessUnits: BusinessUnit[] = new Array();
 
-	result.data.businessUnitCollection.items.forEach((entry: any) => {
+	result.data.businessUnitCollection.items.forEach((entry) => {
 		businessUnits.push(mapEntryToBusinessUnit(entry));
 	});
 	// console.log(businessUnits);
@@ -129,13 +131,26 @@ export async function getBusinessUnits(): Promise<BusinessUnit[]> {
 export async function getCoachingQuestions(
 	selectedMethodologyIds: string[],
 ): Promise<CoachingQuestion[]> {
-	const query = getCoachingQuestionsQuery(selectedMethodologyIds);
-	const result = await client.query({ query });
-	let coachingQuestions: CoachingQuestion[] = new Array();
+	// First get the coaching questions tied to the methodologies
+	const attachedQuery = getCoachingQuestionsQuery(selectedMethodologyIds);
 
-	result.data.coachingQuestionCollection.items.forEach((entry: any) => {
+	// Then get the questions that are not attached to any methodologies
+	const unattachedQuery = getUnattachedCoachingQuestionsQuery();
+
+	const [attachedResult, unattachedResult] = await Promise.all([
+		client.query({ query: attachedQuery }),
+		client.query({ query: unattachedQuery }),
+	]);
+
+	const coachingQuestions: CoachingQuestion[] = new Array();
+
+	attachedResult.data.coachingQuestionCollection.items.forEach((entry) => {
 		coachingQuestions.push(mapEntryToCoachingQuestion(entry));
 	});
-	console.log(coachingQuestions);
+
+	unattachedResult.data.coachingQuestionCollection.items.forEach((entry) => {
+		coachingQuestions.push(mapEntryToCoachingQuestion(entry));
+	});
+
 	return coachingQuestions;
 }
