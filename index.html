@@ -5,14 +5,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Skillibrium - Contetful</title>
-  <script type="module" src="/src/contentful-skillibrium.ts"></script>
-  <script>
+  <!-- <script type="module" src="/src/contentful-skillibrium.ts"></script> -->
+  <script type="module">
     const ACCESS_TOKEN = "7rjVXUpBnvUC4BXz5CK0udDwDZjauDREL4eSo98vuio";
     const SPACE = "sv54roagnofr";
     const ENVIRONMENT = "master";
+    import * as blah from "/src/contentful-skillibrium.ts"
     function start() {
-      // initialize(SPACE, ACCESS_TOKEN, ENVIRONMENT)
-      console.log(CS)
+      blah.initialize(SPACE, ACCESS_TOKEN, ENVIRONMENT)
+      // console.log(CS)
     }
 
   </script>

@@ -1,6 +1,5 @@
-import "./style.css";
-
 import {
+	getMethodologies,
 	getSelectedMethodologies,
 	getSelectedMethodologyCategories,
 	getCoachingAbilities,
@@ -9,36 +8,67 @@ import {
 	getCoachingQuestions,
 } from "./contentful";
 
-import { FullCoachingMethodologies } from "./interfaces";
+import {
+	FullCoachingMethodologies,
+	Methodology,
+	CRMStage,
+	Certifications,
+} from "./interfaces";
 
-test();
-
-function initialize(
+export function initialize(
 	space: string,
 	accessToken: string,
 	environment: string,
 ): void {
+	console.log("in the initialize function");
 	initClient(space, accessToken, environment);
 }
 
-let CS = (function () {
-	const returnString: string = "Hello World";
+export async function getAllMethodologies(
+	certifications: Certifications,
+): Promise<Methodology[]> {
+	let methodologies: Methodology[] = await getMethodologies(certifications);
+	return methodologies;
+}
 
-	function helloWorld() {
-		return returnString;
-	}
+export async function getCRMStages(
+	selectedMethodologies: string[],
+): Promise<CRMStage[]> {
+	const crmStages: CRMStage[] = await getCRMStages(selectedMethodologies);
+	return crmStages;
+}
 
-	return {
-		hello: helloWorld,
+export async function getCoaching(
+	methodologiesArray: string[],
+): Promise<FullCoachingMethodologies> {
+	const [
+		selectedMethodologies,
+		methodologyCategories,
+		coachingAbilitiesTag,
+		businessUnits,
+		coachingQuestions,
+	] = await Promise.all([
+		getSelectedMethodologies(methodologiesArray),
+		getSelectedMethodologyCategories(methodologiesArray),
+		getCoachingAbilities(methodologiesArray),
+		getBusinessUnits(),
+		getCoachingQuestions(methodologiesArray),
+	]);
+
+	const coachingMethodologies: FullCoachingMethodologies = {
+		businessUnits: businessUnits,
+		methodologies: selectedMethodologies,
+		abilityCategories: methodologyCategories,
+		abilityTags: coachingAbilitiesTag,
+		questions: coachingQuestions,
 	};
-})();
-
-console.log(CS.hello());
-
+	return coachingMethodologies;
+}
 
 /**
  * Test function that will not be used in the actual codebase
  */
+/*
 async function test() {
 	const ACCESS_TOKEN = "7rjVXUpBnvUC4BXz5CK0udDwDZjauDREL4eSo98vuio";
 	const SPACE = "sv54roagnofr";
@@ -96,3 +126,4 @@ async function test() {
 	};
 	console.log(coachingMethodologies);
 }
+*/

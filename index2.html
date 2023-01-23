@@ -5,14 +5,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Skillibrium - Contetful</title>
-  <script src="/dist/contentful-skillibrium.umd.cjs"></script>
+  <script src="/dist/contentful-mm.iife.js"></script>
   <script>
     const ACCESS_TOKEN = "7rjVXUpBnvUC4BXz5CK0udDwDZjauDREL4eSo98vuio";
     const SPACE = "sv54roagnofr";
     const ENVIRONMENT = "master";
+    const methodologiesArray = [
+      "2QKnI6T51yPp6h9HSylVpK",
+      "1lZQPJLQhYbHu7ZRYYSufO",
+      "55kQlowECVmIlXMm4p3qpW",
+    ];
 
-    function start() {
-      c.initialize(SPACE, ACCESS_TOKEN, ENVIRONMENT)
+    async function start() {
+      MMContentful.initialize(SPACE, ACCESS_TOKEN, ENVIRONMENT)
+      const methodologies = await MMContentful.getAllMethodologies(true, false)
+      console.log(methodologies);
+
+      const coaching = await MMContentful.getCoaching(methodologiesArray)
+
+      console.log(coaching)
 
     }
 
