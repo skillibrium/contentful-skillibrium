@@ -13,6 +13,29 @@ import { FullCoachingMethodologies } from "./interfaces";
 
 test();
 
+function initialize(
+	space: string,
+	accessToken: string,
+	environment: string,
+): void {
+	initClient(space, accessToken, environment);
+}
+
+let CS = (function () {
+	const returnString: string = "Hello World";
+
+	function helloWorld() {
+		return returnString;
+	}
+
+	return {
+		hello: helloWorld,
+	};
+})();
+
+console.log(CS.hello());
+
+
 /**
  * Test function that will not be used in the actual codebase
  */

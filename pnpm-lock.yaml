@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@apollo/client': ^3.7.4
+  '@types/node': ^18.11.18
   contentful: 10.0.0-beta-v10.8
   graphql: ^16.6.0
   typescript: ^4.9.3
@@ -13,8 +14,9 @@ dependencies:
   graphql: 16.6.0
 
 devDependencies:
+  '@types/node': 18.11.18
   typescript: 4.9.4
-  vite: 4.0.4
+  vite: 4.0.4_@types+node@18.11.18
 
 packages:
 
@@ -262,6 +264,10 @@ packages:
     dependencies:
       graphql: 16.6.0
     dev: false
+
+  /@types/node/18.11.18:
+    resolution: {integrity: sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==}
+    dev: true
 
   /@wry/context/0.7.0:
     resolution: {integrity: sha512-LcDAiYWRtwAoSOArfk7cuYvFXytxfVrdX7yxoUmK7pPITLk5jYh2F8knCwS7LjgYL8u1eidPlKKV6Ikqq0ODqQ==}
@@ -585,7 +591,7 @@ packages:
     hasBin: true
     dev: true
 
-  /vite/4.0.4:
+  /vite/4.0.4_@types+node@18.11.18:
     resolution: {integrity: sha512-xevPU7M8FU0i/80DMR+YhgrzR5KS2ORy1B4xcX/cXLsvnUWvfHuqMmVU6N0YiJ4JWGRJJsLCgjEzKjG9/GKoSw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -610,6 +616,7 @@ packages:
       terser:
         optional: true
     dependencies:
+      '@types/node': 18.11.18
       esbuild: 0.16.17
       postcss: 8.4.21
       resolve: 1.22.1
