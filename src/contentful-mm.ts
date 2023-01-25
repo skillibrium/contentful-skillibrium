@@ -26,6 +26,7 @@ export function initialize(
 export async function getAllMethodologies(
 	certifications: Certifications,
 ): Promise<Methodology[]> {
+	console.log("getting methodologies");
 	let methodologies: Methodology[] = await getMethodologies(certifications);
 	return methodologies;
 }
