@@ -20,7 +20,6 @@ export function initialize(
 	accessToken: string,
 	environment: string,
 ): void {
-	console.log("in the initialize function");
 	initClient(space, accessToken, environment);
 }
 
@@ -41,6 +40,7 @@ export async function getCRMStages(
 export async function getCoaching(
 	methodologiesArray: string[],
 ): Promise<FullCoachingMethodologies> {
+	// console.log("Slected Methodologies: ", methodologiesArray);
 	const [
 		selectedMethodologies,
 		methodologyCategories,
@@ -62,6 +62,7 @@ export async function getCoaching(
 		abilityTags: coachingAbilitiesTag,
 		questions: coachingQuestions,
 	};
+	// console.log(coachingAbilitiesTag);
 	return coachingMethodologies;
 }
 
