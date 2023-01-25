@@ -1,9 +1,11 @@
 {
 	"name": "contentful-skillibrium",
 	"private": true,
-	"version": "0.0.0",
+	"version": "1.0.0",
 	"type": "module",
-	"files": ["dist"],
+	"files": [
+		"dist"
+	],
 	"main": "./dist/contentful-skillibrium.umd.cjs",
 	"module": "./dist/contentful-skillibrium.js",
 	"exports": {
@@ -11,7 +13,7 @@
 			"import": "./dist/contentful-skillibrium.js",
 			"require": "./dist/contentful-skillibrium.umd.cjs"
 		}
-  	},
+	},
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
