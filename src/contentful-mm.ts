@@ -40,7 +40,6 @@ export async function getCRMStages(
 export async function getCoaching(
 	methodologiesArray: string[],
 ): Promise<FullCoachingMethodologies> {
-	// console.log("Slected Methodologies: ", methodologiesArray);
 	const [
 		selectedMethodologies,
 		methodologyCategories,
@@ -55,13 +54,12 @@ export async function getCoaching(
 		getCoachingQuestions(methodologiesArray),
 	]);
 
-	const coachingMethodologies: FullCoachingMethodologies = {
+	const coachingMethodology: FullCoachingMethodologies = {
 		businessUnits: businessUnits,
 		methodologies: selectedMethodologies,
 		abilityCategories: methodologyCategories,
 		abilityTags: coachingAbilitiesTag,
 		questions: coachingQuestions,
 	};
-	// console.log(coachingAbilitiesTag);
-	return coachingMethodologies;
+	return coachingMethodology;
 }
